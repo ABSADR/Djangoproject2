@@ -1,0 +1,113 @@
+<!doctype html>
+{% load static %}
+<html>
+
+
+{% block navbar %}
+    <nav class="navbar navbar-dark bg-dark relative-top">
+        <div class="container-fluid">
+
+            <!-- Left side button -->
+            <div class="d-flex align-items-center">
+                <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasLeftNavbar" aria-controls="offcanvasLeftNavbar"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasLeftNavbar"
+                     aria-labelledby="offcanvasLeftNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasLeftNavbarLabel">EXPLORE (Left)</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+                        <a class="navbar-brand ms-auto" href="{% url 'best_sellers' %}" role="button">
+                            <button class="btn btn-secondary d-block mb-2">BESTSELLERS</button>
+                        </a>
+                        <a class="navbar-brand ms-auto" href="{% url 'new_arrivals' %}" role="button">
+                            <button class="btn btn-secondary d-block mb-2">NEWARRIVALS</button>
+                        </a>
+                        <a class="navbar-brand ms-auto" href="{% url 'create_feedback' %}" role="button">
+                        <button class="btn btn-secondary d-block">Feedbacks</button>
+                            </a>
+                    </div>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+            <div>
+                <a href="{% url 'logout' %}" class="btn btn-outline-secondary">Logout, {{ user.username|title }}</a>
+            </div>
+            {% else %}
+            <div>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+
+                <a href="{% url 'create-user' %}" class="btn btn-outline-secondary">Sign up</a>
+            </div>
+{% endif %}
+            <a class="navbar-brand mx-auto me-4 custom-font" href="{% url 'home-page' %}"
+               style="font-size: 30px; font-family: 'Lobster', sans-serif;">STORE LABEL HERE</a>
+            <a class="navbar-brand ms-auto" href="{% url 'contact-us' %}" role="button" aria-expanded="false">
+                Contact
+            </a>
+            <a class="navbar-brand ms-auto" href="{% url 'cart:cart_detail' %}" role="button" aria-expanded="false">
+                Cart
+            </a>
+            <!-- Right side navigation content -->
+            <a class="navbar-brand ms-auto" href="#">EXPLORE </a>
+
+
+            <!-- Search bar -->
+            <form class="d-flex ms-2">
+                <!-- Search bar -->
+                <form class="d-flex ms-2">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-success" type="submit">Go</button>
+                </form>
+            </form>
+
+
+            <!-- Right side collapsible button and offcanvas content -->
+            <div class="d-flex align-items-center">
+                <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                     aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">EXPLORE (Right)</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <!-- Offcanvas content for the right side -->
+                        <a class="navbar-brand ms-auto" href="{% url 'product_list' %}">
+                        <button class="btn btn-secondary d-block mb-2">Products</button>
+                            </a>
+                        <button class="btn btn-secondary d-block mb-2">Button 2</button>
+                        <button class="btn btn-secondary d-block">Button 3</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    </body>
+
+    </html>
+{% endblock %}
+
+<!-- Simplified version of navbar.html -->
+{#<nav>#}
+{#    <ul>#}
+{#        <li><a href="#">Home</a></li>#}
+{#        <li><a href="#">About</a></li>#}
+{#        <li><a href="#">Contact</a></li>#}
+{#    </ul>#}
+{#</nav>#}

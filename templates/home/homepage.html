@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} FutureStore {% endblock %}
+
+{#https://w.forfun.com/fetch/ab/abe2f709fb22eb6b588a1c506b156089.jpeg#}
+{% block content %}
+    <div class="container-fluid">
+
+{#<body style="background-color: gray">#}
+        <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static 'images/img.png' %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+    </style>
+    </div>
+{% endblock %}
+
