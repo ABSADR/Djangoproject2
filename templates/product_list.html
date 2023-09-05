@@ -1,12 +1,24 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
     <h1>Product List</h1>
     <ul>
         {% for product in products %}
-            <li>
-                {{ product.name }} - ${{ product.price }}
-                <a href="{% url 'cart:add_to_cart' product.id %}">Add to cart</a>
-            </li>
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg">
+                        <div class="card">
+                            <!-- Replace the src attribute with your image URL -->
+                            <img src="https://do6sydhp1s299.cloudfront.net/web/files/collections/29295084_original.png" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">${{ product.price }}</p>
+                                <a href="{% url 'cart:add_to_cart' product.id %}">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </ul>
 {% endblock %}

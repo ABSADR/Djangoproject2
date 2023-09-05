@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, F
 from django.shortcuts import render, redirect
 
 from cart.models import Cart, CartItem
 from product.models import Product
 
 
+@login_required()
 def add_to_cart(request, product_id):
     print(f'user:{request.user}')
     print(f'product id:{product_id}')
@@ -20,30 +21,26 @@ def add_to_cart(request, product_id):
     return redirect('cart:cart_detail')
 
 
+
+@login_required
+def cart_detail(request):
+    '''
+    I attempt to get a Cart instance associated with the logged-in user.
+    I use [0] to access the first element of the tuple returned by get_or_create,
+    which should be the Cart instance itself.
+    '''
+    cart = Cart.objects.get_or_create(user=request.user)[0]
+    cart_items = cart.cart_items.all()
+
+    # Calculate the total price by summing the quantity * price for each item
+    total_price = cart_items.aggregate(total=Sum(F('product__price') * F('quantity')))['total'] or 0
+
+    return render(request, 'cart/cart_detail.html',
+                  {'cart_items': cart_items, 'total_price': total_price})
+
+
 def remove_from_cart(request, cart_item_id):
     cart_item = CartItem.objects.get(id=cart_item_id)
     cart_item.delete()
     return redirect('cart:cart_detail')
 
-
-@login_required
-def cart_detail(request):
-    products = Product.objects.all()
-    user_id = request.user.id
-    cart = None
-
-    try:
-        cart = Cart.objects.get(user=request.user)
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=request.user)
-
-    cart_items = cart.items.all()
-    print(f'cart items {cart_items}')
-    total_price = 0
-    for item in cart_items:
-        total_price += item.product.price * item.quantity
-
-    # total_price = cart.items.aggregate(Sum('product__price'))['product__price__sum'] or 0
-    # total_price = sum(item.product.price * item.quantity for item in cart_items)
-
-    return render(request, 'cart/cart_detail.html', {'cart_items': cart_items, 'total_price': total_price})
