@@ -2,12 +2,13 @@ from datetime import datetime
 import random
 
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
-from userextend.forms import UserForm
+from userextend.forms import UserForm, UserProfileForm
 from userextend.models import History, UserProfile
 
 
@@ -52,12 +53,25 @@ def user_profile_redirect(request):
     user = request.user
     return render(request, 'userextend/useradded.html', {'user':user})
 
-#     def get_success_url(self):
-#
-#         return reverse_lazy('user_profile', kwargs={'username': self.object.username})
-#
-#
-# def user_profile(request, username):
-#     user = User.objects.get(username=username)
-#
-#     return render(request, 'userextend/useradded.html', {'user': user})
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('user_profile')  # Redirect to the user's profile page
+    else:
+        profile_form = UserProfileForm(instance=request.user.userprofile)
+
+    return render(request, 'userextend/edit_profile.html', {'profile_form': profile_form})
+
+class UserListView(ListView):
+    template_name = 'userextend/list_of_users.html'
+    model = User
+    context_object_name = 'all_users'
+
+
+    def get_queryset(self):
+        return User.objects.filter(is_active=True)
+

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}List of users{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            {% if all_users %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Profile Picture</th>
+                    <th>Username</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in all_users %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            {% if user.userprofile.profile_picture %}
+                                <img src="{{ user.userprofile.profile_picture.url }}" style="width: 60px; height: 60px" alt="Profile Picture">
+                            {% else %}
+                                <p>No profile picture available</p>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

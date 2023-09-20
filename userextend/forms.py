@@ -1,6 +1,9 @@
+from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from django.forms import TextInput, EmailInput
+from django.forms import TextInput, EmailInput, ImageField
+
+from userextend.models import UserProfile
 
 
 class AuthenticationNewForm(AuthenticationForm):
@@ -11,6 +14,16 @@ class AuthenticationNewForm(AuthenticationForm):
             {'class': 'form-control', 'placeholder': 'Please enter your username'})
         self.fields['password'].widget.attrs.update(
             {'class': 'form-control','placeholder': 'Please enter your password'})
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture']
+        widgets={
+
+            'profile_picture': forms.ClearableFileInput(attrs={'class':'form-control'}),
+        }
+
 
 class UserForm(UserCreationForm):
 
