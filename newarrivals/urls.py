@@ -4,5 +4,5 @@ from newarrivals import views
 
 urlpatterns=[
 
-    path('newarrivals/',views.something1,name='new_arrivals')
+    path('newarrivals/',views.new_arrivals ,name='new_arrivals')
 ]
