@@ -1,6 +1,18 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    custom_username = models.CharField(max_length=100,unique=True,blank=True,null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+
 class History(models.Model):
     message = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
