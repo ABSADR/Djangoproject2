@@ -32,7 +32,7 @@ class UserCreateView(CreateView):
         # Creating UserProfile
 
             user_profile = UserProfile.objects.create(user=new_user)
-            user_profile.custom_username = self.request.POST['custom_username']
+            user_profile.custom_username = self.request.POST['username']
             user_profile.save()
 
             login(self.request, new_user)
