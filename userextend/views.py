@@ -59,6 +59,10 @@ def edit_profile(request):
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
         if profile_form.is_valid():
+
+            User.first_name = request.POST['first_name']
+            User.last_name = request.POST['last_name']
+            User.email = request.POST['email']
             profile_form.save()
             return redirect('user_profile')  # Redirect to the user's profile page
     else:

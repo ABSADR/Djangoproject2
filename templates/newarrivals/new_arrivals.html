@@ -1,55 +1,74 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url(https://media.tenor.com/Ozy-90dOYgQAAAAC/abstract-pyramid.gif);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 200vh;
+    }
 
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url(	https://media.tenor.com/Ozy-90dOYgQAAAAC/abstract-pyramid.gif
-);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100vh;
-        }
+    /* Adjust card width and height */
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        width: 200px; /* Set your desired width */
+        height: 300px; /* Set your desired height */
+        margin: 100px; /* Add margin to create space between cards */
+    }
 
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
+    .card:hover {
+        transform: scale(1.05);
+    }
 
-        .card:hover {
-            transform: scale(1.05);
-        }
-    </style>
+    /* Adjust the background color with transparency for the card */
+    .card .card-body {
+        background-color: rgba(0, 0, 0, 0.7); /* You can adjust the opacity by changing the last value (0.7) */
+        padding: 10px;
+    }
 
+    /* Keep the text and images unaffected */
+    .card-title,
+    .card-text,
+    .card-img-top {
+        color: white;
+    }
 
-    <body>
-    <h1>New Arrivals</h1>
-    <div class="row">
-        {% for product in new_products %}
-            <div class="col-md-3 mb-3">
-                <div class="card">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
-                    {% else %}
-                        <!-- Placeholder image or alternative content for products without images -->
-                        <img src="{% static 'images/placeholder.png' %}" class="card-img-top" alt="Placeholder Image">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">${{ product.price }}</p>
-                        <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">Add to cart</a>
-                        <a href="{% url 'edit_product' product.id %}" class="btn btn-secondary">Edit</a>
-                    </div>
+    /* Adjust the opacity of the card title and text */
+    .card-title,
+    .card-text {
+        opacity: 1; /* Set opacity to 1 for full visibility */
+    }
+</style>
+<body>
+<h1>New Arrivals</h1>
+<div class="row">
+    {% for product in new_products %}
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
+                {% else %}
+                    <!-- Placeholder image or alternative content for products without images -->
+                    <img src="{% static 'images/placeholder.png' %}" class="card-img-top" alt="Placeholder Image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">${{ product.price }}</p>
+                    <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">Add to cart</a>
+                    <a href="{% url 'edit_product' product.id %}" class="btn btn-secondary">Edit</a>
                 </div>
             </div>
-        {% endfor %}
-    </div>
-    </body>
+        </div>
+    {% endfor %}
+</div>
+</body>
 {% endblock %}

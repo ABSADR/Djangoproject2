@@ -18,7 +18,7 @@ def add_to_cart(request, product_id):
     if not item_created:
         cart_item.quantity += 1
         cart_item.save()
-    return redirect('cart:cart_detail')
+    return redirect(request.META.get('HTTP_REFERER')) #Using this redirect to keep the user on the current page
 
 
 

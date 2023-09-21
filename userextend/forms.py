@@ -18,11 +18,14 @@ class AuthenticationNewForm(AuthenticationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['profile_picture']
-        widgets={
-
-            'profile_picture': forms.ClearableFileInput(attrs={'class':'form-control'}),
+        fields = ['profile_picture', 'first_name', 'last_name', 'email']
+        widgets = {
+            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control','placeholder':'Change first name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control','placeholder':'Change last name'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control','placeholder':'Enter new email adress'}),
         }
+
 
 
 class UserForm(UserCreationForm):

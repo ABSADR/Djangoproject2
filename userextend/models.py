@@ -9,7 +9,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     custom_username = models.CharField(max_length=100, unique=True, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='static/images/profile_pics/', blank=True, null=True)
-
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(blank=True)
     def __str__(self):
         return self.user.username
 

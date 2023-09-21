@@ -1,13 +1,57 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
+<style>
+    /* Set the background image for the body */
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url(https://w.forfun.com/fetch/71/719f7156b127e229157919bf13c745ce.jpeg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100vh;
+    }
+
+    /* Add background color and padding to the card header for better readability */
+    .card-header {
+        background-color: rgba(0, 0, 0, 1);
+        padding: 5px;
+    }
+
+    /* Style the card header text */
+    .card-header h1 {
+        color: #ffffff;
+    }
+
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 150, 255, 10);
+        background-color: rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card-header h3,
+    .card-body,
+    .card-footer {
+        color: white;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title text-center">User Profile</h1>
+                    <!-- Display the username with a clear background -->
+                    <h1 class="card-title text-center bg-dark">{{ user.username.title }}</h1>
                 </div>
                 <div class="card-body">
                     <!-- Display the profile picture if available, otherwise display a default image -->
@@ -27,7 +71,7 @@
                 </div>
                 <div class="card-footer text-center">
                     <a href="{% url 'home-page' %}" class="btn btn-outline-danger">Home</a>
-                    <a href="{% url 'edit_profile' %}" class="btn btn-outline-danger">Edit</a>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-outline-info">Edit profile</a>
                 </div>
             </div>
         </div>
