@@ -4,18 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(https://www.webtunix.ai/static/img/faceman.gif);
+            background-color: #671313;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #448dff;
+            width: 300px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgb(255, 255, 255);
+        }
+
+        .card label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .card input[type="text"],
+        .card input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .card button[type="submit"] {
+            background-color: #ff0015;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .card button[type="submit"]:hover {
+            background-color: #ff0000;
+        }
+
+        .card a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add a New Product</h1>
+    <div class="card-container">
+        <div class="card">
+            <h1>Add a New Product</h1>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
-        {{ form.as_p }}
+                <label for="{{ form.name.id_for_label }}">Product Name:</label>
+                {{ form.name }}
 
-        <button type="submit">Add Product</button>
-    </form>
+                <label for="{{ form.price.id_for_label }}">Price:</label>
+                {{ form.price }}
 
-    <a href="{% url 'product_list' %}">Back to Product List</a>
+                <label for="{{ form.image.id_for_label }}">Product Image:</label>
+                {{ form.image }}
+
+                <button type="submit">Add Product</button>
+            </form>
+
+            <a href="{% url 'product_list' %}">Back to Product List</a>
+        </div>
+    </div>
 </body>
 </html>

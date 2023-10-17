@@ -13,8 +13,9 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('https://media.tenor.com/Ozy-90dOYgQAAAAC/abstract-pyramid.gif');
-            background-size: cover;
+            background-color: black;
+            background-image: url('https://engineering.giphy.com/wp-content/uploads/2019/04/giphy-5.gif');
+            background-size: auto;
             background-position: center;
             background-repeat: no-repeat;
             height: 100vh;
@@ -30,6 +31,34 @@
         .card:hover {
             transform: scale(1.05);
         }
+
+
+        .card {
+    position: relative;
+    width: 200px; /* Adjust the card width as needed */
+    transform: rotate(-45deg); /* Rotate the cards by -45 degrees */
+    transform-origin: top center; /* Set the rotation origin to the top center */
+    transition: all 0.3s ease-in-out;
+}
+
+.card:nth-child(2n) {
+    transform: rotate(45deg); /* Rotate every other card by 45 degrees */
+}
+
+.card:nth-child(1) {
+    top: 0;
+    left: 0;
+}
+
+.card:nth-child(2) {
+    top: 100px; /* Adjust the top position as needed */
+    left: 100px; /* Adjust the left position as needed */
+}
+
+.card:nth-child(3) {
+    top: 200px; /* Adjust the top position as needed */
+    left: 200px; /* Adjust the left position as needed */
+}
     </style>
 </head>
 <body>

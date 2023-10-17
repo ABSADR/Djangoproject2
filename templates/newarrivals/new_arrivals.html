@@ -7,11 +7,12 @@
     body {
         margin: 0;
         padding: 0;
-        background-image: url(https://media.tenor.com/Ozy-90dOYgQAAAAC/abstract-pyramid.gif);
+        background-color: black;
+        background-image: url(https://ahf.org/wp-content/uploads/2022/09/GIF_AHF-35-years-1500x750-1.gif);
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        height: 200vh;
+        height: 100vh;
     }
 
     /* Adjust card width and height */
@@ -47,13 +48,38 @@
     .card-text {
         opacity: 1; /* Set opacity to 1 for full visibility */
     }
+
+
+        .shake {
+        animation: shake 0.5s ease-in-out infinite;
+    }
+
+    /* Add a class for the glowing border */
+    .glow {
+        box-shadow: 0 0 10px rgba(255, 192, 83, 0.7); /* Adjust the color and intensity as needed */
+        transition: box-shadow 0.7s ease-in-out;
+    }
+
+        .glow:hover {
+        box-shadow: 0 0 120px rgba(255, 208, 104, 0.9); /* Increase the intensity of the glow on hover */
+    }
+
+    /* Define the shake animation keyframes */
+    @keyframes shake {
+        0% { transform: translate(0, 0); }
+        20% { transform: translate(-5px, 0); }
+        40% { transform: translate(5px, 0); }
+        60% { transform: translate(-5px, 0); }
+        80% { transform: translate(5px, 0); }
+        100% { transform: translate(0, 0); }
+    }
 </style>
 <body>
-<h1>New Arrivals</h1>
+
 <div class="row">
     {% for product in new_products %}
         <div class="col-md-3 mb-3">
-            <div class="card">
+            <div class="card shake glow">
                 {% if product.image %}
                     <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
                 {% else %}
@@ -69,6 +95,9 @@
             </div>
         </div>
     {% endfor %}
+
+
+
 </div>
 </body>
 {% endblock %}

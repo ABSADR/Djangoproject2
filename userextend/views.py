@@ -1,7 +1,7 @@
 from datetime import datetime
 import random
 
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -49,26 +49,59 @@ class UserCreateView(CreateView):
         return super().form_valid(form)
 
 
+
 def user_profile_redirect(request):
     user = request.user
     return render(request, 'userextend/useradded.html', {'user':user})
 
 
 @login_required
+def edit_user(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+            # Save user-related fields
+            user = user_form.save(commit=False)
+            user.first_name = request.POST['first_name']
+            user.last_name = request.POST['last_name']
+            user.email = request.POST['email']
+            user.save()
+
+            return redirect('login')
+
+
+    else:
+        user_form = UserForm(instance=request.user)
+
+        print('here now')
+
+    return render(request, 'userextend/edit_user.html', {'user_form': user_form})
+
+
+
+
 def edit_profile(request):
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        if profile_form.is_valid():
 
-            User.first_name = request.POST['first_name']
-            User.last_name = request.POST['last_name']
-            User.email = request.POST['email']
-            profile_form.save()
-            return redirect('user_profile')  # Redirect to the user's profile page
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.age = request.POST['age']
+            profile.gender = request.POST['gender']
+            profile.country = request.POST['country']
+            profile.zodiac = request.POST['zodiac']
+            profile.save()
+
+            # Redirect to a success page or any other desired page
+            return redirect('user_profile')
+
     else:
         profile_form = UserProfileForm(instance=request.user.userprofile)
 
     return render(request, 'userextend/edit_profile.html', {'profile_form': profile_form})
+
+
 
 class UserListView(ListView):
     template_name = 'userextend/list_of_users.html'

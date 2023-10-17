@@ -43,38 +43,105 @@
     .card-footer {
         color: white;
     }
+
+        .glow {
+        box-shadow: 0 4px 20px rgba(0, 150, 255, 0.7); /* Adjust the shadow for the glow effect */
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    /* Keyframes for the shake animation */
+    @keyframes shake {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(-5px, 0); }
+        50% { transform: translate(5px, 0); }
+        75% { transform: translate(-5px, 0); }
+        100% { transform: translate(5px, 0); }
+    }
 </style>
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-12">
+            <!-- Combine the Left and Right Columns -->
             <div class="card">
-                <div class="card-header">
-                    <!-- Display the username with a clear background -->
-                    <h1 class="card-title text-center bg-dark">{{ user.username.title }}</h1>
-                </div>
-                <div class="card-body">
-                    <!-- Display the profile picture if available, otherwise display a default image -->
-                    {% if user.userprofile.profile_picture %}
-                        <img src="{{ user.userprofile.profile_picture.url }}" class="img-fluid rounded-circle mx-auto d-block" alt="Profile Picture">
-                    {% else %}
-                        <!-- Default image if no profile picture is available -->
-                        <img src="{% static 'images/label/spectrumlogo.png' %}" class="img-fluid rounded-circle mx-auto d-block" alt="Default Profile Picture">
-                    {% endif %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Left Column for Dynamic Content -->
+                        <!-- You can add any content you want here, such as a user profile picture, additional information, etc. -->
+                        <!-- Example: -->
+                        <div class="card-body">
+                            <ul class="list-group mt-3">
+                                {% if user.userprofile.profile_picture %}
+                                    <img src="{{ user.userprofile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture">
+                                {% else %}
+                                    <!-- Default image if no profile picture is available -->
+                                    <img src="{% static 'images/label/spectrumlogo.png' %}" class="img-fluid rounded-circle mx-auto d-block" alt="Default Profile Picture">
+                                {% endif %}
+                                <li class="list-group-item"><strong>Age:</strong> {{ user.userprofile.age }}</li>
+                                <li class="list-group-item"><strong>Gender:</strong> {{ user.userprofile.gender.title }}</li>
+                                <li class="list-group-item"><strong>Country:</strong> {{ user.userprofile.country }}</li>
+                                <li class="list-group-item"><strong>Zodiac:</strong> {{ user.userprofile.zodiac.title }}</li>
+                                <!-- Add more user profile fields here... -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <!-- Right Column for User Profile Information (Your Current Card) -->
+                        <!-- Your existing card HTML here... -->
+                        <!-- This is where you display the user's profile information -->
+                        <div class="card-header">
+                            <h1 class="card-title text-center bg-dark">{{ user.username.title }}</h1>
+                        </div>
 
-                    <ul class="list-group mt-3">
-                        <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
-                        <li class="list-group-item"><strong>First Name:</strong> {{ user.first_name }}</li>
-                        <li class="list-group-item"><strong>Last Name:</strong> {{ user.last_name }}</li>
-                        <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
-                    </ul>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{% url 'home-page' %}" class="btn btn-outline-danger">Home</a>
-                    <a href="{% url 'edit_profile' %}" class="btn btn-outline-info">Edit profile</a>
+                        <br><br><br><br><br><br><br>
+                        <div class="card-body">
+                            <ul class="list-group mt-3">
+                                <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+                                <li class="list-group-item"><strong>First Name:</strong> {{ user.first_name }}</li>
+                                <li class="list-group-item"><strong>Last Name:</strong> {{ user.last_name }}</li>
+                                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                                <!-- Add more user profile fields here... -->
+                            </ul>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{% url 'home-page' %}" class="btn btn-outline-success">Home</a>
+                            <a href="{% url 'edit_user' %}" class="btn btn-outline-danger">Edit user</a>
+                            <a href="{% url 'edit_profile' %}" class="btn btn-outline-info">Edit profile</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+    <!-- Add this script tag to the end of your HTML file, just before the closing </body> tag -->
+<script>
+    // Function to add a shaking effect to the card
+    function shakeCard() {
+        const card = document.querySelector('.card');
+        card.classList.add('shake');
+        setTimeout(() => {
+            card.classList.remove('shake');
+        }, 1000); // Adjust the duration of the shake effect (in milliseconds)
+    }
+
+    // Function to add a glowing effect to the card on hover
+    function glowOnHover() {
+        const card = document.querySelector('.card');
+        card.classList.add('glow');
+    }
+
+    // Function to remove the glowing effect when the mouse leaves the card
+    function removeGlow() {
+        const card = document.querySelector('.card');
+        card.classList.remove('glow');
+    }
+
+    // Add event listeners to trigger the animations
+    const card = document.querySelector('.card');
+    card.addEventListener('click', shakeCard);
+    card.addEventListener('mouseenter', glowOnHover);
+    card.addEventListener('mouseleave', removeGlow);
+</script>
 {% endblock %}
+

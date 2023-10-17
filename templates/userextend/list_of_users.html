@@ -27,8 +27,9 @@
                             {% if user.userprofile.profile_picture %}
                                 <img src="{{ user.userprofile.profile_picture.url }}" style="width: 60px; height: 60px" alt="Profile Picture">
                             {% else %}
-                                <p>No profile picture available</p>
-                            {% endif %}
+
+                                 <img src="{% static 'images/label/spectrumlogo.png' %}" class="img-fluid rounded-circle mx-auto " style="width: 60px; height: 60px" alt="Default Profile Picture">
+                    {% endif %}
                         </td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.first_name }}</td>

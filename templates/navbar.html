@@ -2,10 +2,49 @@
 {% load static %}
 <html>
 
+<head>
+<style>
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7); /* Initial background color with opacity */
+}
 
-{% block navbar %}
+/* Change the navbar color on hover */
+.navbar:hover {
+    background-color: rgba(0, 0, 0, 0.9); /* Background color with increased opacity on hover */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Add a glow effect on hover */
+}
+
+/* Style the collapsing buttons */
+.navbar-toggler {
+    background-color: transparent; /* Make the button background transparent */
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    cursor: pointer; /* Add pointer cursor */
+    {#transition: transform 0.2s ease-in-out; /* Add a smooth transform effect */#}
+}
+
+/* Rotate the button on click */
+.navbar-toggler:focus {
+    transform: rotate(180deg); /* Rotate the button 180 degrees on click */
+}
+
+/* Style the offcanvas content */
+.offcanvas-body {
+    background-color: #111; /* Change the background color of the offcanvas body */
+    color: #ffffff; /* Set text color */
+    padding: 20px; /* Add padding for content */
+}
+
+</style>
+
+
+</head>
+<body>
     <nav class="navbar navbar-dark bg-dark relative-top">
+
         <div class="container-fluid">
+
 
             <!-- Left side button -->
             <div class="d-flex align-items-center">
@@ -31,42 +70,65 @@
                             <button class="btn btn-secondary d-block mb-2">NEWARRIVALS</button>
                         </a>
                         <a class="navbar-brand ms-auto" href="{% url 'create_feedback' %}" role="button">
-                        <button class="btn btn-secondary d-block">Feedbacks</button>
+                            <button class="btn btn-secondary d-block">Feedbacks</button>
+                        </a>
+                        <a class="navbar-brand ms-auto" href="{% url 'list_of_feedbacks' %}" role="button">
+                            <button class="btn btn-secondary d-block">List of Feedbacks</button>
+                        </a>
+                        <a class="navbar-brand ms-auto" href="{% url 'list_of_users' %}" role="button">
+                            <button class="btn btn-secondary d-block">List of users</button>
+                        </a>
+                            <a class="navbar-brand ms-auto" href="{% url 'product_list' %}">
+                            <button class="btn btn-secondary d-block mb-2">Products</button>
+                        </a>
+                        <a class="navbar-brand ms-auto" href="$" role="button">
+                            <button class="btn btn-secondary d-block mb-2">Shades</button>
+                            <a class="navbar-brand ms-auto" href="$" role="button">
+                                <button class="btn btn-secondary d-block mb-2">Rings</button>
                             </a>
+                            <a class="navbar-brand ms-auto" href="{% url 'add_product' %}" role="button">
+                                <button class="btn btn-secondary d-block mb-2">ADD PRODUCT</button>
+                            </a>
+                        </a>
                     </div>
                 </div>
             </div>
             {% if user.is_authenticated %}
-            <div>
-                <a href="{% url 'logout' %}" class="btn btn-outline-secondary">Logout, {{ user.username|title }}</a>
-            </div>
-            {% else %}
-            <div>
-                <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                <div class="d-flex align-items-center">
+                    <!-- Display the user's profile picture -->
+                    {% if user.userprofile.profile_picture %}
+                    <img src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}'s Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
+                    {% endif %}
 
-                <a href="{% url 'create-user' %}" class="btn btn-outline-secondary">Sign up</a>
-            </div>
-{% endif %}
-            <a class="navbar-brand mx-auto me-4 custom-font" href="{% url 'home-page' %}"
-               style="font-size: 30px; font-family: 'Lobster', sans-serif;">STORE LABEL HERE</a>
+                    <a href="{% url 'user_profile' %}" class="btn btn-outline-secondary"> {{ user.username|title }}</a>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-secondary">Log out</a>
+                </div>
+            {% else %}
+                <div>
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+
+                    <a href="{% url 'create-user' %}" class="btn btn-outline-secondary">Sign up</a>
+                </div>
+            {% endif %}
+
+            <a class="navbar-brand mx-auto me-4 custom-font" href="{% url 'home-page' %}">
+                <img src="{% static 'images/label/vision4.png' %}" alt="Store Logo" style="width: 200px; height: 40px;">
+            </a>
+
             <a class="navbar-brand ms-auto" href="{% url 'contact-us' %}" role="button" aria-expanded="false">
                 Contact
             </a>
-            <a class="navbar-brand ms-auto" href="{% url 'cart:cart_detail' %}" role="button" aria-expanded="false">
-                Cart
-            </a>
-            <!-- Right side navigation content -->
-            <a class="navbar-brand ms-auto" href="#">EXPLORE </a>
+
+
+
 
 
             <!-- Search bar -->
-            <form class="d-flex ms-2">
-                <!-- Search bar -->
-                <form class="d-flex ms-2">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-success" type="submit">Go</button>
-                </form>
-            </form>
+<form class="d-flex ms-2" action="{% url 'product_search_bar' %}" method="GET">
+    <!-- Search bar -->
+    <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+    <button class="btn btn-success" type="submit">Go</button>
+</form>
 
 
             <!-- Right side collapsible button and offcanvas content -->
@@ -86,11 +148,17 @@
                     </div>
                     <div class="offcanvas-body">
                         <!-- Offcanvas content for the right side -->
+
                         <a class="navbar-brand ms-auto" href="{% url 'product_list' %}">
-                        <button class="btn btn-secondary d-block mb-2">Products</button>
+                            <button class="btn btn-secondary d-block mb-2">Products</button>
+                        </a>
+                                    <a class="navbar-brand ms-auto" href="{% url 'product_search' %}">Search </a>
+                        <a class="navbar-brand ms-auto" href="$" role="button">
+                            <button class="btn btn-secondary d-block mb-2">Shades</button>
+                            <a class="navbar-brand ms-auto" href="$" role="button">
+                                <button class="btn btn-secondary d-block mb-2">Rings</button>
                             </a>
-                        <button class="btn btn-secondary d-block mb-2">Button 2</button>
-                        <button class="btn btn-secondary d-block">Button 3</button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -98,16 +166,7 @@
     </nav>
 
 
-    </body>
 
-    </html>
-{% endblock %}
-
-<!-- Simplified version of navbar.html -->
-{#<nav>#}
-{#    <ul>#}
-{#        <li><a href="#">Home</a></li>#}
-{#        <li><a href="#">About</a></li>#}
-{#        <li><a href="#">Contact</a></li>#}
-{#    </ul>#}
-{#</nav>#}
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-1.13.6/b-2.4.2/cr-1.7.0/fh-3.4.0/r-2.5.0/sb-1.5.0/datatables.min.js"></script>
+</body>
+</html>

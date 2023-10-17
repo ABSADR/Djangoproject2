@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 
 from cart.models import Cart, CartItem
 from product.models import Product
+from django.http import JsonResponse
 
 
 @login_required()
@@ -44,3 +45,25 @@ def remove_from_cart(request, cart_item_id):
     cart_item.delete()
     return redirect('cart:cart_detail')
 
+def update_cart_item_quantity(request):
+    def update_cart_item_quantity(request):
+        if request.method == "POST" and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            cart_item_id = request.POST.get("cart_item_id")
+            new_quantity = int(request.POST.get("new_quantity"))
+
+            # Perform the update in the database
+            cart_item = CartItem.objects.get(id=cart_item_id)
+            cart_item.quantity = new_quantity
+            cart_item.save()
+
+            # Calculate the new total price for the cart item
+            new_total = cart_item.product.price * new_quantity
+
+            # Recalculate the total price for the entire cart
+            cart = Cart.objects.get(user=request.user)
+            cart_items = cart.cart_items.all()
+            new_cart_total = cart_items.aggregate(total=Sum(F('product__price') * F('quantity')))['total'] or 0
+
+            return JsonResponse({"new_total": new_total, "new_cart_total": new_cart_total})
+
+        return JsonResponse({"error": "Invalid request."})

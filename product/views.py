@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from product.forms import ProductForm
+from product.forms import ProductForm, ProductSearchForm
 from product.models import Product
 
 
@@ -39,3 +39,22 @@ def edit_product(request, product_id):
     return render(request, 'edit_product.html', {'form': form, 'product': product})
 
 
+def product_search(request):
+    if request.method == 'GET':
+        form = ProductSearchForm(request.GET)
+        if form.is_valid():
+            search_query = form.cleaned_data['search_query']
+            products = Product.objects.filter(name__icontains=search_query)
+            return render(request, 'product_search_results.html', {'products': products})
+        else:
+            form = ProductSearchForm()
+        return render(request, 'product_search.html', {'form':form})
+
+
+def product_search_bar(request):
+    query = request.GET.get('q')
+    if query:
+        products = Product.objects.filter(name__icontains=query)
+    else:
+        products = Product.objects.all()
+    return render(request, 'product_search_results.html', {'products': products})
